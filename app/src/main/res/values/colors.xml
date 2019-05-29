@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/grey_50</color>
+    <color name="colorPrimaryDark">@color/grey_300</color>
+    <color name="colorAccent">#167C80</color>
+
+    <color name="colorNavBarDivider">#DCDCDC</color>
+
+    <color name="colorBackground">@color/grey_50</color>
+    <color name="colorDialogBackground">@color/grey_50</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="dark">#121212</color>
+
+    <color name="grey_50">#FAFAFA</color>
+    <color name="grey_300">#E0E0E0</color>
+</resources>

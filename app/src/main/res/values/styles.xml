@@ -1,0 +1,35 @@
+<resources>
+
+    <style name="BaseTheme" parent="Theme.MaterialComponents.DayNight">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="alertDialogTheme">@style/AlertDialog.DayNight</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
+    </style>
+
+    <style name="AppTheme" parent="BaseTheme">
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:navigationBarDividerColor">@color/colorNavBarDivider</item>
+        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:statusBarColor">@color/grey_300</item>
+    </style>
+
+    <style name="AlertDialog.DayNight" parent="AlertDialog">
+        <item name="android:windowBackground">@drawable/background_dialog</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.Button.TextButton.Dialog</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.Button</item>
+    </style>
+
+    <style name="AlertDialog" parent="Theme.MaterialComponents.Light.Dialog.Alert"/>
+
+    <style name="Widget.Button" parent="Widget.MaterialComponents.Button">
+        <item name="cornerRadius">@dimen/corner_radius</item>
+    </style>
+
+    <style name="Widget.Button.TextButton.Dialog" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="cornerRadius">@dimen/corner_radius</item>
+    </style>
+
+</resources>

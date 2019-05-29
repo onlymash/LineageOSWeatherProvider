@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="BaseTheme">
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:navigationBarColor">@color/dark</item>
+        <item name="android:statusBarColor">@color/dark</item>
+    </style>
+
+    <style name="AlertDialog" parent="Theme.MaterialComponents.Dialog.Alert"/>
+</resources>
