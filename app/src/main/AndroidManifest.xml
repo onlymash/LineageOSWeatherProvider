@@ -17,9 +17,8 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity
-                android:name="onlymash.lineageos.weather.SettingsActivity">
-        </activity>
+
+        <activity android:name="onlymash.lineageos.weather.SettingsActivity"/>
 
         <service
                 android:name="onlymash.lineageos.weather.WeatherMapProviderService"
