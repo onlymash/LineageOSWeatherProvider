@@ -10,8 +10,8 @@ import lineageos.providers.WeatherContract
 import lineageos.providers.LineageSettings
 import onlymash.lineageos.weather.model.CurrentWeather
 import onlymash.lineageos.weather.model.ForecastWeather
-import java.io.IOException
 import java.util.*
+import kotlin.collections.ArrayList
 
 private const val METRIC_UNITS = "metric"
 private const val IMPERIAL_UNITS = "imperial"
@@ -88,7 +88,7 @@ class WeatherRepositoryImpl(
                 units = units,
                 lang = languageCode,
                 appId = key).execute()
-        } catch (_: IOException) {
+        } catch (_: Exception) {
             null
         } ?: return null
         return if (response.isSuccessful) {
@@ -104,7 +104,7 @@ class WeatherRepositoryImpl(
                 if (forecastResponse.isSuccessful) {
                     forecastWeather = forecastResponse.body()
                 }
-            } catch (_: IOException) { }
+            } catch (_: Exception) { }
             processWeather(response.body(), forecastWeather, tempUnit)
         } else null
     }
@@ -122,7 +122,7 @@ class WeatherRepositoryImpl(
                 units = units,
                 lang = languageCode,
                 appId = key).execute()
-        } catch (_: IOException) {
+        } catch (_: Exception) {
             null
         } ?: return null
         return if (response.isSuccessful) {
@@ -137,7 +137,7 @@ class WeatherRepositoryImpl(
                 if (forecastResponse.isSuccessful) {
                     forecastWeather = forecastResponse.body()
                 }
-            } catch (_: IOException) { }
+            } catch (_: Exception) { }
             processWeather(response.body(), forecastWeather, tempUnit)
         } else null
     }
@@ -148,7 +148,7 @@ class WeatherRepositoryImpl(
         if (key.isNullOrEmpty()) throw InvalidApiKeyException()
         val response = try {
             api.lookupCityWeather(cityName, getLanguageCode(), SEARCH_CITY_TYPE, key).execute()
-        } catch (_: IOException) {
+        } catch (_: Exception) {
             null
         }
         if (response != null && response.isSuccessful) {
@@ -293,7 +293,7 @@ class WeatherRepositoryImpl(
                 context.contentResolver,
                 LineageSettings.Global.WEATHER_TEMPERATURE_UNIT
             )
-        } catch (e: LineageSettings.LineageSettingNotFoundException) {
+        } catch (_: Exception) {
             //Default to metric
             WeatherContract.WeatherColumns.TempUnit.CELSIUS
         }
