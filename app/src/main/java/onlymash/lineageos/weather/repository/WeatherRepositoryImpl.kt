@@ -291,7 +291,8 @@ class WeatherRepositoryImpl(
         return try {
             LineageSettings.Global.getInt(
                 context.contentResolver,
-                LineageSettings.Global.WEATHER_TEMPERATURE_UNIT
+                LineageSettings.Global.WEATHER_TEMPERATURE_UNIT,
+                WeatherContract.WeatherColumns.TempUnit.CELSIUS
             )
         } catch (_: Exception) {
             //Default to metric
