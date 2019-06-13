@@ -6,12 +6,15 @@ import lineageos.weather.WeatherInfo
 import lineageos.weather.WeatherLocation
 import onlymash.lineageos.weather.api.OpenWeatherMapApi
 import android.text.TextUtils
+import androidx.preference.PreferenceManager
 import lineageos.providers.WeatherContract
-import lineageos.providers.LineageSettings
 import onlymash.lineageos.weather.model.CurrentWeather
 import onlymash.lineageos.weather.model.ForecastWeather
 import java.util.*
 import kotlin.collections.ArrayList
+
+private const val TEMPERATURE_UNIT_KEY = "temperature_unit"
+private const val TEMPERATURE_UNIT_CELSIUS = "celsius"
 
 private const val METRIC_UNITS = "metric"
 private const val IMPERIAL_UNITS = "imperial"
@@ -75,7 +78,7 @@ class WeatherRepositoryImpl(
     var apiKey: String? = null
 
     @Throws(InvalidApiKeyException::class)
-    override fun queryWeather(location: Location): WeatherInfo? {
+    override suspend fun queryWeather(location: Location): WeatherInfo? {
         val key = apiKey
         if (key.isNullOrEmpty()) throw InvalidApiKeyException()
         val languageCode = getLanguageCode()
@@ -87,7 +90,8 @@ class WeatherRepositoryImpl(
                 lon = location.longitude,
                 units = units,
                 lang = languageCode,
-                appId = key).execute()
+                appId = key
+            )
         } catch (_: Exception) {
             null
         } ?: return null
@@ -100,7 +104,7 @@ class WeatherRepositoryImpl(
                     units = units,
                     lang = languageCode,
                     appId = key
-                ).execute()
+                )
                 if (forecastResponse.isSuccessful) {
                     forecastWeather = forecastResponse.body()
                 }
@@ -110,7 +114,7 @@ class WeatherRepositoryImpl(
     }
 
     @Throws(InvalidApiKeyException::class)
-    override fun queryWeather(weatherLocation: WeatherLocation): WeatherInfo? {
+    override suspend fun queryWeather(weatherLocation: WeatherLocation): WeatherInfo? {
         val key = apiKey
         if (key.isNullOrEmpty()) throw InvalidApiKeyException()
         val languageCode = getLanguageCode()
@@ -121,7 +125,8 @@ class WeatherRepositoryImpl(
                 cityId = weatherLocation.cityId,
                 units = units,
                 lang = languageCode,
-                appId = key).execute()
+                appId = key
+            )
         } catch (_: Exception) {
             null
         } ?: return null
@@ -133,7 +138,7 @@ class WeatherRepositoryImpl(
                     units = units,
                     lang = languageCode,
                     appId = key
-                ).execute()
+                )
                 if (forecastResponse.isSuccessful) {
                     forecastWeather = forecastResponse.body()
                 }
@@ -143,11 +148,12 @@ class WeatherRepositoryImpl(
     }
 
     @Throws(InvalidApiKeyException::class)
-    override fun lookupCity(cityName: String): List<WeatherLocation> {
+    override suspend fun lookupCity(cityName: String): List<WeatherLocation> {
         val key = apiKey
         if (key.isNullOrEmpty()) throw InvalidApiKeyException()
         val response = try {
-            api.lookupCityWeather(cityName, getLanguageCode(), SEARCH_CITY_TYPE, key).execute()
+            api.lookupCityWeather(cityName, getLanguageCode(), SEARCH_CITY_TYPE, key
+            )
         } catch (_: Exception) {
             null
         }
@@ -287,18 +293,12 @@ class WeatherRepositoryImpl(
         }
     }
 
-    private fun getTempUnitFromSettings(): Int {
-        return try {
-            LineageSettings.Global.getInt(
-                context.contentResolver,
-                LineageSettings.Global.WEATHER_TEMPERATURE_UNIT,
-                WeatherContract.WeatherColumns.TempUnit.CELSIUS
-            )
-        } catch (_: Exception) {
-            //Default to metric
-            WeatherContract.WeatherColumns.TempUnit.CELSIUS
+    private fun getTempUnitFromSettings(): Int =
+        when (PreferenceManager.getDefaultSharedPreferences(context)
+            .getString(TEMPERATURE_UNIT_KEY, TEMPERATURE_UNIT_CELSIUS)) {
+            TEMPERATURE_UNIT_CELSIUS -> WeatherContract.WeatherColumns.TempUnit.CELSIUS
+            else -> WeatherContract.WeatherColumns.TempUnit.FAHRENHEIT
         }
-    }
 
     private fun mapTempUnit(tempUnit: Int): String {
         return when (tempUnit) {

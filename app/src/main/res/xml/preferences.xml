@@ -4,6 +4,7 @@
         app:key="settings_screen">
 
     <PreferenceCategory
+            app:key="settings"
             app:title="@string/prefscreen_category_authentication_title">
 
         <EditTextPreference
@@ -11,7 +12,8 @@
                 app:title="@string/prefscreen_api_key_title"
                 app:summary="@string/prefscreen_api_key_summary"
                 app:dialogTitle="@string/prefscreen_api_key_title"/>
-        <PreferenceScreen
+
+        <Preference
                 app:key="create_key"
                 app:title="@string/prefscreen_create_key_title"
                 app:summary="@string/prefscreen_create_key_summary">
@@ -19,19 +21,29 @@
             <intent
                     android:action="android.intent.action.VIEW"
                     android:data="https://home.openweathermap.org/users/sign_up" />
-        </PreferenceScreen>
+        </Preference>
+
+        <ListPreference
+            app:key="temperature_unit"
+            app:title="@string/prefscreen_temperature_unit"
+            app:defaultValue="celsius"
+            app:entryValues="@array/temperature_unit_entries_value"
+            app:entries="@array/temperature_unit_entries"
+            app:useSimpleSummaryProvider="true"/>
     </PreferenceCategory>
 
     <PreferenceCategory
+            app:key="about"
             app:title="@string/prefscreen_category_about_title">
+
         <Preference
                 app:key="disclaimer"
                 app:persistent="false"
                 app:title="@string/prefscreen_disclaimer_title"
                 app:summary="@string/prefscreen_disclaimer_summary"/>
+
         <Preference
                 app:title="@string/copyright_title"
                 app:summary="@string/copyright_summary" />
     </PreferenceCategory>
-
 </PreferenceScreen>

@@ -16,4 +16,7 @@
     <string name="prefscreen_disclaimer_summary">此应用所提供的信息仅供一般用途</string>
     <string name="copyright_title">版权所有​​​​​</string>
     <string name="copyright_summary">OpenWeatherMap 是 OpenWeatherMap 公司在美国及国际上的注册商标。</string>
+    <string name="prefscreen_temperature_unit">温度单位</string>
+    <string name="prefscreen_temperature_unit_celsius">摄氏</string>
+    <string name="prefscreen_temperature_unit_fahrenheit">华氏</string>
 </resources>

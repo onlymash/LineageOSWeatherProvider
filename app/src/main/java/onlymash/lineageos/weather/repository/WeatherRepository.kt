@@ -6,9 +6,9 @@ import lineageos.weather.WeatherLocation
 
 interface WeatherRepository {
 
-    fun queryWeather(location: Location): WeatherInfo?
+    suspend fun queryWeather(location: Location): WeatherInfo?
 
-    fun queryWeather(weatherLocation: WeatherLocation): WeatherInfo?
+    suspend fun queryWeather(weatherLocation: WeatherLocation): WeatherInfo?
 
-    fun lookupCity(cityName: String): List<WeatherLocation>
+    suspend fun lookupCity(cityName: String): List<WeatherLocation>
 }

@@ -4,4 +4,12 @@
         <item>@string/api_key_state_pending_verification</item>
         <item>@string/api_key_state_verified</item>
     </string-array>
+    <string-array name="temperature_unit_entries" translatable="false">
+        <item>@string/prefscreen_temperature_unit_celsius</item>
+        <item>@string/prefscreen_temperature_unit_fahrenheit</item>
+    </string-array>
+    <string-array name="temperature_unit_entries_value" translatable="false">
+        <item>celsius</item>
+        <item>fahrenheit</item>
+    </string-array>
 </resources>
