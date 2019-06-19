@@ -210,9 +210,15 @@ class WeatherRepositoryImpl(
         var maxItems = forecastWeather.list.size
         val forecastList = ArrayList<WeatherInfo.DayForecast>()
         var forecastBuilder: WeatherInfo.DayForecast.Builder? = null
-        var min = 0.0
-        var max = 0.0
+        var min = 1000.0
+        var max = -1000.0
         forecastWeather.list.forEachIndexed { index, data ->
+            if (data.main.tempMax > max) {
+                max = data.main.tempMax
+            }
+            if (data.main.tempMin < min) {
+                min = data.main.tempMin
+            }
             val forecastCalendar = Calendar.getInstance()
             forecastCalendar.timeInMillis = data.dt * 1000
             if (index == 0) {
@@ -220,20 +226,14 @@ class WeatherRepositoryImpl(
                 val currentDay = Calendar.getInstance().get(Calendar.DAY_OF_YEAR)
                 if (currentDay != forecastDay) {
                     forecastBuilder = WeatherInfo.DayForecast.Builder(condition).apply {
-                        setHigh(currentWeather.main.tempMax)
-                        setLow(currentWeather.main.tempMin)
+                        setHigh(max)
+                        setLow(min)
                     }
                     forecastList.add(forecastBuilder!!.build())
                     maxItems -= FORECAST_ITEMS_PER_DAY
                 }
-                max = data.main.tempMax
-                min = data.main.tempMin
-            }
-            if (data.main.tempMax > max) {
-                max = data.main.tempMax
-            }
-            if (data.main.tempMin < min) {
-                min = data.main.tempMin
+                builder.setTodaysHigh(max)
+                builder.setTodaysLow(min)
             }
             if (index % FORECAST_ITEMS_PER_DAY == 0) {
                 forecastBuilder =
@@ -252,6 +252,8 @@ class WeatherRepositoryImpl(
                     setLow(min)
                     forecastList.add(build())
                 }
+                min = 1000.0
+                max = -1000.0
             }
         }
         builder.setForecast(forecastList)
